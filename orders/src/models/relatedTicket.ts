@@ -4,6 +4,7 @@ import { Order } from "./order";
 import { OrderStatus } from "@microservice-auth/common";
 
 interface RelatedTicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -40,8 +41,11 @@ const relatedTicketSchema = new mongoose.Schema(
   }
 );
 
-relatedTicketSchema.statics.build = (attrs: RelatedTicketAttrs) => {
-  return new RelatedTicket(attrs);
+relatedTicketSchema.statics.build = ({ id, ...attrs }: RelatedTicketAttrs) => {
+  return new RelatedTicket({
+    _id: id,
+    ...attrs,
+  });
 };
 
 relatedTicketSchema.methods.isReserved = async function checkRserved() {
