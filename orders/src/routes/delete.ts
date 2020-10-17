@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+
 import {
   requireAuth,
   OrderStatus,
@@ -33,6 +34,7 @@ router.delete(
 
     new OrderCancelldPublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
       },

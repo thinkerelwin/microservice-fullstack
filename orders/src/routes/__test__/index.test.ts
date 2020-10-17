@@ -1,4 +1,5 @@
 import request from "supertest";
+import mongoose from 'mongoose'
 
 import { app } from "../../app";
 import { RelatedTicket } from "../../models/relatedTicket";
@@ -6,6 +7,7 @@ import { mockSignIn } from "../../test/setup";
 
 async function buildTicket() {
   const ticket = RelatedTicket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "festival",
     price: 15,
   });

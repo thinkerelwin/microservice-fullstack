@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current'
 
 import { Order } from "./order";
 import { OrderStatus } from "@microservice-auth/common";
@@ -12,11 +13,13 @@ interface RelatedTicketAttrs {
 export interface RelatedTicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
 interface RelatedTicketModel extends mongoose.Model<RelatedTicketDoc> {
   build(attrs: RelatedTicketAttrs): RelatedTicketDoc;
+  findByEvent(event: {id: string, version: number}): Promise<RelatedTicketDoc | null>
 }
 
 const relatedTicketSchema = new mongoose.Schema(
@@ -41,12 +44,22 @@ const relatedTicketSchema = new mongoose.Schema(
   }
 );
 
+relatedTicketSchema.set("versionKey", 'version')
+relatedTicketSchema.plugin(updateIfCurrentPlugin)
+
 relatedTicketSchema.statics.build = ({ id, ...attrs }: RelatedTicketAttrs) => {
   return new RelatedTicket({
     _id: id,
     ...attrs,
   });
 };
+
+relatedTicketSchema.statics.findByEvent = (event: {id: string, version: number}) => {
+  return RelatedTicket.findOne({
+    _id: event.id,
+    version: event.version - 1
+  })
+}
 
 relatedTicketSchema.methods.isReserved = async function checkRserved() {
   const existingOrder = await Order.findOne({
