@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {updateIfCurrentPlugin} from 'mongoose-update-if-current'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 import { Order } from "./order";
 import { OrderStatus } from "@microservice-auth/common";
@@ -44,8 +44,8 @@ const relatedTicketSchema = new mongoose.Schema(
   }
 );
 
-relatedTicketSchema.set("versionKey", 'version')
-relatedTicketSchema.plugin(updateIfCurrentPlugin)
+relatedTicketSchema.set("versionKey", 'version');
+relatedTicketSchema.plugin(updateIfCurrentPlugin);
 
 relatedTicketSchema.statics.build = ({ id, ...attrs }: RelatedTicketAttrs) => {
   return new RelatedTicket({
