@@ -2,6 +2,7 @@ import { Message } from 'node-nats-streaming'
 import { Listener, OrderCreatedEvent, Subjects } from '@microservice-auth/common'
 import { queueGroupName as queueGroupNameString } from '../../constants'
 import { Ticket } from '../../models/ticket'
+import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher'
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   readonly subject = Subjects.OrderCreated;
@@ -17,6 +18,14 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     ticket.set({ orderId: data.id })
     // save the ticket
     await ticket.save()
+    await new TicketUpdatedPublisher(this.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+      version: ticket.version,
+      orderId: ticket.orderId,
+    })
     // ack the message
     message.ack()
   }
