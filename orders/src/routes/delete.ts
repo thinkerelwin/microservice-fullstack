@@ -8,7 +8,7 @@ import {
 } from "@microservice-auth/common";
 
 import { Order } from "../models/order";
-import { OrderCancelldPublisher } from "../events/publishers/order-cancelled-publisher";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
@@ -32,7 +32,7 @@ router.delete(
     order.status = OrderStatus.Cancelled;
     await order.save();
 
-    new OrderCancelldPublisher(natsWrapper.client).publish({
+    new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       version: order.version,
       ticket: {

@@ -32,7 +32,7 @@ async function startUp() {
     );
     natsWrapper.client.on("close", () => {
       console.log("NATS connection closed");
-      process.getMaxListeners();
+      process.exit();
     });
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());

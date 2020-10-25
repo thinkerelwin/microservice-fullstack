@@ -4,6 +4,6 @@ import {
   Subjects,
 } from "@microservice-auth/common";
 
-export class OrderCancelldPublisher extends Publisher<OrderCancelledEvent> {
+export class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
   readonly subject = Subjects.OrderCancelled;
 }
