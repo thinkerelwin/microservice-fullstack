@@ -8,6 +8,8 @@ let mongo: any;
 
 jest.mock("../nats-wrapper");
 
+process.env.STRIPE_KEY = "sk_test_HzvPLs3yqTVn6U5HRlif76cX"
+
 beforeAll(async () => {
   process.env.JWT_KEY = "MockString";
 
@@ -34,10 +36,10 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-export function mockSignIn() {
+export function mockSignIn(id?: string) {
   // Build a JWT payload. { id, email }
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: id || new mongoose.Types.ObjectId().toHexString(),
     email: "test@tes.com",
   };
   // create the JWT
