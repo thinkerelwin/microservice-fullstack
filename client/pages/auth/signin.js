@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Router from "next/router";
-import { UseRequest } from "../../hooks/useRequest";
+import { useRequest } from "../../hooks/useRequest";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { fetch, errors } = UseRequest({
+  const { fetch, errors } = useRequest({
     url: "/api/users/signin",
     method: "post",
     body: { email, password },

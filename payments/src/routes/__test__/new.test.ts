@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { OrderStatus } from '@microservice-auth/common'
 
 import { PaymentOrder } from '../../models/paymentsOrder'
+import { Payment } from '../../models/payment'
 import { app } from '../../app'
 import { mockSignIn } from "../../test/setup";
 import { stripe } from '../../stripe'
@@ -84,4 +85,11 @@ it("returns a 201 with valid inputs", async () => {
 
   expect(stripeCharge).toBeDefined()
   expect(stripeCharge!.currency).toBe('usd')
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: stripeCharge!.id
+  })
+
+  expect(payment).not.toBeNull()
 })

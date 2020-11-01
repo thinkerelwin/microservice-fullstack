@@ -7,15 +7,18 @@ export default function CustomApp({ Component, pageProps, currentUser }) {
   return (
     <div>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />;
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 }
 
 CustomApp.getInitialProps = async ({ Component, ctx }) => {
-  const { data } = await buildClient(ctx).get("/api/users/currentuser");
+  const client = buildClient(ctx);
+  const { data } = await client.get("/api/users/currentuser");
   const pageProps = Component.getInitialProps
-    ? await Component.getInitialProps(ctx)
+    ? await Component.getInitialProps(ctx, client, data.currentUser)
     : {};
 
   return {

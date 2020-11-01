@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export function UseRequest({ url, method, body, onSuccess }) {
+export function useRequest({ url, method, body, onSuccess }) {
   const [errors, setErrors] = useState(null);
 
   async function fetch() {
