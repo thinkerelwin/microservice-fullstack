@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -9,14 +10,15 @@ const Ticket = ({ ticket }) => {
     body: {
       ticketId: ticket.id,
     },
-    onSuccess: (order) => console.log(order),
+    onSuccess: (order) =>
+      Router.push("/orders/[orderId]", `/orders/${order.id}`),
   });
   return (
     <div>
       <h1>{ticket.title}</h1>
       <h4>{ticket.price}</h4>
       {errors}
-      <button onClick={fetch} className="btn btn-primary">
+      <button onClick={() => fetch()} className="btn btn-primary">
         Purchase
       </button>
     </div>

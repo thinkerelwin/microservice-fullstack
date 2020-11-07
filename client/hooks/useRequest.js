@@ -4,9 +4,9 @@ import { useState } from "react";
 export function useRequest({ url, method, body, onSuccess }) {
   const [errors, setErrors] = useState(null);
 
-  async function fetch() {
+  async function fetch(props = {}) {
     try {
-      const response = await axios[method](url, body);
+      const response = await axios[method](url, { ...body, ...props });
       setErrors(null);
       if (onSuccess) {
         onSuccess(response.data);
