@@ -4,6 +4,8 @@ import { app } from "./app";
 startUp();
 
 async function startUp() {
+  console.log("test github action...")
+  
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY is not defined");
   }
