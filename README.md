@@ -8,8 +8,6 @@ An full-stack app using the following tech stack: TypeScript, Node, Express, Doc
 4. The app is deployed and runs in Docker containers, and executed in a Kubernetes cluster.
 5. Using GitHub Actions for basic CI
 
-## Installing
-
 ## Running the tests
 
 - `npm run test` to run the test on watch mode
